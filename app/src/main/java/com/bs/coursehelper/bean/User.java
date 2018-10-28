@@ -10,7 +10,7 @@ import java.io.Serializable;
 public class User implements Serializable {
 
     /**
-     * 用户的姓名、密码、学号（教师工号）、性别
+     * 用户的姓名、密码、学号（教师工号）、性别、类型
      *
      */
     private int userId;
@@ -18,6 +18,11 @@ public class User implements Serializable {
     private String userPwd;
     private String userNumber;
     private int userSex;
+    /**
+     * 用户的类型  0  学生  、1  教师
+     *
+     */
+    private int userType;
 
     public int getUserId() {
         return userId;
@@ -59,6 +64,14 @@ public class User implements Serializable {
         this.userPwd = userPwd;
     }
 
+    public int getUserType() {
+        return userType;
+    }
+
+    public void setUserType(int userType) {
+        this.userType = userType;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -67,6 +80,7 @@ public class User implements Serializable {
                 ", userPwd='" + userPwd + '\'' +
                 ", userNumber='" + userNumber + '\'' +
                 ", userSex=" + userSex +
+                ", userType=" + userType +
                 '}';
     }
 }

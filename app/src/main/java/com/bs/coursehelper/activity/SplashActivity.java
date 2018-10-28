@@ -6,8 +6,8 @@ import android.text.TextUtils;
 import com.bs.coursehelper.Constants;
 import com.bs.coursehelper.R;
 import com.bs.coursehelper.base.BaseActivity;
+import com.bs.coursehelper.utils.SPUtil;
 import com.vondear.rxtool.RxActivityTool;
-import com.vondear.rxtool.RxSPTool;
 
 /**
  * 引导页
@@ -18,7 +18,7 @@ public class SplashActivity extends BaseActivity {
     protected void initData() {
 
         new Handler().postDelayed(() -> {
-            String userInfo = RxSPTool.getString(mContext, Constants.USER_LOCAL_INFO);
+            String userInfo = (String) SPUtil.getInstanse().getParam(Constants.USER_LOCAL_INFO, "");
             if (!TextUtils.isEmpty(userInfo)) {
                 RxActivityTool.skipActivity(mContext, MainActivity.class);
             } else {

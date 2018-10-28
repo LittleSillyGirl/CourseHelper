@@ -41,12 +41,14 @@ public class DbHelper {
     public static final String KEY_PWD = "userPwd";
     public static final String KEY_NUMBER = "userNumber";
     public static final String KEY_SEX = "userSex";
+    public static final String KEY_USER_TYPE = "userType";
 
     /**
      * 创建表数据
      */
     private static final String CREATE_USER_TABLE = "CREATE TABLE IF NOT EXISTS " + DATABASE_USER_TABLE + " ("+ KEY_ID +" integer primary key autoincrement, " +
-            KEY_NAME + " text not null, " + KEY_PWD + " text not null, " + KEY_NUMBER + " text not null, " + KEY_SEX + " integer );";
+            KEY_NAME + " text not null, " + KEY_PWD + " text not null, " + KEY_NUMBER + " text not null, " + KEY_SEX + " integer, " +
+            KEY_USER_TYPE + " integer);";
 
     private static List<String> tables;
 
@@ -156,6 +158,7 @@ public class DbHelper {
             userValue.put(KEY_PWD, user.getUserPwd());
             userValue.put(KEY_NUMBER, user.getUserNumber());
             userValue.put(KEY_SEX, user.getUserSex());
+            userValue.put(KEY_SEX, user.getUserSex());
             result = mDb.insert(DATABASE_USER_TABLE, null, userValue);
             Log.e(TAG, "insertUser: result==" + result);
             mDb.setTransactionSuccessful();
@@ -191,6 +194,7 @@ public class DbHelper {
                 user.setUserPwd(cursor.getString(cursor.getColumnIndex(KEY_PWD)));
                 user.setUserNumber(cursor.getString(cursor.getColumnIndex(KEY_NUMBER)));
                 user.setUserSex(cursor.getInt(cursor.getColumnIndex(KEY_SEX)));
+                user.setUserType(cursor.getInt(cursor.getColumnIndex(KEY_USER_TYPE)));
                 Log.e(TAG, "queryUser: " + user.toString() );
             }
             cursor.close();

@@ -22,13 +22,13 @@ import com.bs.coursehelper.base.BaseActivity;
 import com.bs.coursehelper.bean.User;
 import com.bs.coursehelper.db.DbHelper;
 import com.bs.coursehelper.utils.ProgressDialogHelper;
+import com.bs.coursehelper.utils.SPUtil;
 import com.bs.coursehelper.utils.SoftKeyBoardListener;
 import com.google.gson.Gson;
 import com.vondear.rxtool.RxActivityTool;
 import com.vondear.rxtool.RxAnimationTool;
 import com.vondear.rxtool.RxImageTool;
 import com.vondear.rxtool.RxKeyboardTool;
-import com.vondear.rxtool.RxSPTool;
 import com.vondear.rxtool.view.RxToast;
 
 import butterknife.BindView;
@@ -150,7 +150,7 @@ public class LoginActivity extends BaseActivity {
                                     user = dbHelper.queryUser(userName, userPwd);
                                     if (user != null) {
                                         String userInfo = new Gson().toJson(user);
-                                        RxSPTool.putString(mContext, Constants.USER_LOCAL_INFO, userInfo);
+                                        SPUtil.getInstanse().setParam(Constants.USER_LOCAL_INFO, userInfo);
                                         result = 2;
                                     } else {
                                         result = 1;

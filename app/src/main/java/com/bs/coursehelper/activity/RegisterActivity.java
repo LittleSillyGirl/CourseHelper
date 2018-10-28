@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
 
 import com.bs.coursehelper.R;
 import com.bs.coursehelper.base.BaseActivity;
@@ -55,6 +56,10 @@ public class RegisterActivity extends BaseActivity {
     ConstraintLayout idClContentRegister;
     @BindView(R.id.id_rt_title)
     RxTitle idRtTitle;
+    @BindView(R.id.id_rg_role)
+    RadioGroup idRgRole;
+
+    private int userType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +74,17 @@ public class RegisterActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        idRgRole.setOnCheckedChangeListener((radioGroup, i) -> {
+            switch (radioGroup.getCheckedRadioButtonId()){
+                case R.id.id_rb_role_student:
+                    userType = 0 ;
+                    break;
+                case R.id.id_rb_role_teacher:
+                    userType = 1 ;
+                    break;
+            }
+        });
+
     }
 
     @Override
@@ -133,6 +149,8 @@ public class RegisterActivity extends BaseActivity {
                 user[0].setUserName(userName);
                 user[0].setUserNumber(usernumber);
                 user[0].setUserPwd(userPwd);
+                user[0].setUserType(userType);
+
 
                 DbHelper dbHelper = DbHelper.getInstance();
                 ProgressDialogHelper progressDialogHelper = new ProgressDialogHelper(mContext);
@@ -282,5 +300,6 @@ public class RegisterActivity extends BaseActivity {
         if (!TextUtils.isEmpty(pwd))
             et.setSelection(pwd.length());
     }
+
 
 }
