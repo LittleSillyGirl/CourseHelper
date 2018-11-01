@@ -158,7 +158,7 @@ public class DbHelper {
             userValue.put(KEY_PWD, user.getUserPwd());
             userValue.put(KEY_NUMBER, user.getUserNumber());
             userValue.put(KEY_SEX, user.getUserSex());
-            userValue.put(KEY_SEX, user.getUserSex());
+            userValue.put(KEY_USER_TYPE, user.getUserType());
             result = mDb.insert(DATABASE_USER_TABLE, null, userValue);
             Log.e(TAG, "insertUser: result==" + result);
             mDb.setTransactionSuccessful();
@@ -242,10 +242,9 @@ public class DbHelper {
         long result = -1;
         Log.e(TAG, "updateUser: use=="+ user.toString());
         ContentValues userValue = new ContentValues();
-        userValue.put(KEY_NAME, user.getUserName());
         userValue.put(KEY_PWD, user.getUserPwd());
-//        result = mDb.update(DATABASE_USER_TABLE, userValue, KEY_NAME+"=? and " + KEY_PWD_HELP + "=?" ,
-//                new String[]{user.getUserName(), user.getPwdHelp()});
+        result = mDb.update(DATABASE_USER_TABLE, userValue, KEY_NUMBER+"=?" ,
+                new String[]{user.getUserNumber()});
         Log.e(TAG, "updateUser: result==" + result);
         return result;
     }

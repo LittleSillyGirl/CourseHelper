@@ -126,7 +126,10 @@ public class LoginActivity extends BaseActivity {
                 idEtUserPwd.setText("");
                 break;
             case R.id.id_tv_forget_pwd:
-                // TODO: 2018/10/14 跳转到忘记密码的界面 
+                // TODO: 2018/10/14 跳转到忘记密码的界面
+                idEtUserAccount.setText("");
+                idEtUserPwd.setText("");
+                RxActivityTool.skipActivity(mContext, ForgetPwdActivity.class);
                 break;
             case R.id.id_btn_login:
                 // TODO: 2018/10/14 跳转首页

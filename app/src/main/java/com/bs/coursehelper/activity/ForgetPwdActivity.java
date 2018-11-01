@@ -7,10 +7,11 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioGroup;
 
 import com.bs.coursehelper.R;
 import com.bs.coursehelper.base.BaseActivity;
@@ -32,86 +33,72 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class RegisterActivity extends BaseActivity {
+public class ForgetPwdActivity extends BaseActivity {
 
-    @BindView(R.id.id_iv_register_logo)
-    ImageView idIvRegisterLogo;
-    @BindView(R.id.id_et_user_account)
-    EditText idEtUserAccount;
-    @BindView(R.id.id_iv_clean_account)
-    ImageView idIvCleanAccount;
+    @BindView(R.id.id_rt_title)
+    RxTitle idRtTitle;
+    @BindView(R.id.id_iv_forget_logo)
+    ImageView idIvForgetLogo;
+    @BindView(R.id.id_iv_icon_number)
+    ImageView idIvIconNumber;
     @BindView(R.id.id_et_user_number)
-    EditText idEtUsernumber;
+    EditText idEtUserNumber;
     @BindView(R.id.id_iv_clean_number)
-    ImageView idIvCleannumber;
+    ImageView idIvCleanNumber;
+    @BindView(R.id.id_v_line_number)
+    View idVLineNumber;
+    @BindView(R.id.id_iv_icon_pwd)
+    ImageView idIvIconPwd;
     @BindView(R.id.id_et_user_pwd)
     EditText idEtUserPwd;
     @BindView(R.id.id_iv_clean_pwd)
     ImageView idIvCleanPwd;
+    @BindView(R.id.id_cb_pwd)
+    CheckBox idCbPwd;
+    @BindView(R.id.id_v_line_pwd)
+    View idVLinePwd;
+    @BindView(R.id.id_iv_icon_pwd_sure)
+    ImageView idIvIconPwdSure;
     @BindView(R.id.id_et_user_pwd_sure)
     EditText idEtUserPwdSure;
     @BindView(R.id.id_iv_clean_pwd_sure)
     ImageView idIvCleanPwdSure;
-    @BindView(R.id.id_cl_content_register)
-    ConstraintLayout idClContentRegister;
-    @BindView(R.id.id_rt_title)
-    RxTitle idRtTitle;
-    @BindView(R.id.id_rg_role)
-    RadioGroup idRgRole;
-
-    private int userType;
+    @BindView(R.id.id_cb_pwd_sure)
+    CheckBox idCbPwdSure;
+    @BindView(R.id.id_v_line_pwd_sure)
+    View idVLinePwdSure;
+    @BindView(R.id.id_btn_save)
+    Button idBtnSave;
+    @BindView(R.id.id_cl_content_forget)
+    ConstraintLayout idClContentForget;
+    @BindView(R.id.id_cl_root_register)
+    ConstraintLayout idClRootRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-    }
-
-    @Override
-    protected void initParam(Bundle savedInstanceState) {
-        super.initParam(savedInstanceState);
-    }
-
-    @Override
-    protected void initView() {
-        idRgRole.setOnCheckedChangeListener((radioGroup, i) -> {
-            switch (radioGroup.getCheckedRadioButtonId()){
-                case R.id.id_rb_role_student:
-                    userType = 0 ;
-                    break;
-                case R.id.id_rb_role_teacher:
-                    userType = 1 ;
-                    break;
-            }
-        });
-
     }
 
     @Override
     protected void initData() {
-        idRtTitle.setLeftFinish(mActivity);
+
     }
 
     @Override
     protected void initListener() {
+
     }
 
     @Override
     protected int getLayoutResId() {
-        return R.layout.activity_register;
+        return R.layout.activity_forget_pwd;
     }
 
-    @OnClick({R.id.id_cl_root_register, R.id.id_iv_clean_account, R.id.id_iv_clean_number, R.id.id_iv_clean_pwd, R.id.id_iv_clean_pwd_sure, R.id.id_btn_register})
+    @OnClick({R.id.id_iv_clean_number, R.id.id_iv_clean_pwd, R.id.id_iv_clean_pwd_sure, R.id.id_btn_save})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.id_cl_root_register:
-                RxKeyboardTool.hideSoftInput(mActivity);
-                break;
-            case R.id.id_iv_clean_account:
-                idEtUserAccount.setText("");
-                break;
             case R.id.id_iv_clean_number:
-                idEtUsernumber.setText("");
+                idEtUserNumber.setText("");
                 break;
             case R.id.id_iv_clean_pwd:
                 idEtUserPwd.setText("");
@@ -119,16 +106,13 @@ public class RegisterActivity extends BaseActivity {
             case R.id.id_iv_clean_pwd_sure:
                 idEtUserPwdSure.setText("");
                 break;
-            case R.id.id_btn_register:
-                // TODO: 2018/10/14 注册
-                String userName = idEtUserAccount.getText().toString().trim();
-                if (isEtEmpty(userName, "用户名不能为空...", idEtUserAccount)) return;
+            case R.id.id_btn_save:
 
-                String usernumber = idEtUsernumber.getText().toString().trim();
-                if (isEtEmpty(usernumber, "用户学号或者工号不能为空...", idEtUsernumber)) return;
+                String usernumber = idEtUserNumber.getText().toString().trim();
+                if (isEtEmpty(usernumber, "用户学号或者工号不能为空...", idEtUserNumber)) return;
                 if (!RxRegTool.isMatch("[0-9]*", usernumber)) {
                     RxToast.normal("学号或者工号不符合规则...");
-                    ShakeHelper.shake(idEtUsernumber);
+                    ShakeHelper.shake(idEtUserNumber);
                     return;
                 }
 
@@ -146,32 +130,26 @@ public class RegisterActivity extends BaseActivity {
                 }
 
                 final User[] user = {new User()};
-                user[0].setUserName(userName);
                 user[0].setUserNumber(usernumber);
                 user[0].setUserPwd(userPwd);
-                user[0].setUserType(userType);
-
-                //55 是管理员的工号开头  学号不是的
-                if (userType == 1 && !usernumber.startsWith("55")){
-                    RxToast.normal("学生不能注册管理员...");
-                    return;
-                }else if (usernumber.startsWith("55") && userType == 0){
-                    RxToast.normal("学号有误，请重新输入...");
-                    return;
-                }
 
                 DbHelper dbHelper = DbHelper.getInstance();
                 ProgressDialogHelper progressDialogHelper = new ProgressDialogHelper(mContext);
-                progressDialogHelper.show("注册", "正在注册中...");
+                progressDialogHelper.show("找回密码", "正在找回中...");
                 RxKeyboardTool.hideSoftInput(mActivity);
                 Observable.just(0)
                         .map(integer -> {
                             long isSucess = -1;
-                            try {
-                                isSucess = dbHelper.insertUser(user[0]);
-                            } catch (SQLiteException sqLiteException) {
-                                isSucess = -1;
-                                sqLiteException.printStackTrace();
+                            User userTmp = dbHelper.queryUser(usernumber);
+                            if (userTmp == null) {
+                                isSucess = -2;
+                            }else{
+                                try {
+                                    isSucess = dbHelper.updateUserPwd(user[0]);
+                                } catch (SQLiteException sqLiteException) {
+                                    isSucess = -1;
+                                    sqLiteException.printStackTrace();
+                                }
                             }
                             return isSucess;
                         })
@@ -180,8 +158,14 @@ public class RegisterActivity extends BaseActivity {
                         .subscribe(o -> {
                             progressDialogHelper.dismiss();
                             if (o >= 0) {
-                                RxToast.normal("注册成功！");
+                                RxToast.normal("找回密码成功！");
                                 finish();
+                            }else if (o == -2){
+                                RxToast.normal("学生对应的学号或者管理员的工号不存在，请仔细填写！！！");
+                                ShakeHelper.shake(idEtUserNumber);
+                                idEtUserNumber.setText("");
+                            }else if (0 == -1){
+                                RxToast.normal("找回密码失败！！！");
                             }
                         });
                 break;
@@ -189,30 +173,16 @@ public class RegisterActivity extends BaseActivity {
     }
 
     /**
-     * 用户名的监听
-     *
-     * @param editable
-     */
-    @OnTextChanged(value = R.id.id_et_user_account, callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
-    public void afterTextChangedAccount(Editable editable) {
-        if (editable.length() > 0) {
-            idIvCleanAccount.setVisibility(View.VISIBLE);
-        } else {
-            idIvCleanAccount.setVisibility(View.GONE);
-        }
-    }
-
-    /**
-     * 用户手机号的监听
+     * 用户手机号(其实就是学号)的监听
      *
      * @param editable
      */
     @OnTextChanged(value = R.id.id_et_user_number, callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
     public void afterTextChangednumber(Editable editable) {
         if (editable.length() > 0) {
-            idIvCleannumber.setVisibility(View.VISIBLE);
+            idIvCleanNumber.setVisibility(View.VISIBLE);
         } else {
-            idIvCleannumber.setVisibility(View.GONE);
+            idIvCleanNumber.setVisibility(View.GONE);
         }
     }
 
@@ -259,24 +229,6 @@ public class RegisterActivity extends BaseActivity {
                 editText.setText("");
             }
         }
-
-    }
-
-    @OnFocusChange(R.id.id_et_user_number)
-    public void onFocusChangenumber(EditText editText, boolean isFouces) {
-        if (!isFouces) {
-            String usernumber = idEtUsernumber.getText().toString().trim();
-            if (TextUtils.isEmpty(usernumber)) {
-                RxToast.normal("工号或者学号不能为空...");
-                return;
-            }
-            if (!RxRegTool.isMatch("[0-9]*", usernumber)) {
-                RxToast.normal("工号或者学号格式不正确...");
-                ShakeHelper.shake(editText);
-                editText.setText("");
-            }
-        }
-
     }
 
 
@@ -308,6 +260,4 @@ public class RegisterActivity extends BaseActivity {
         if (!TextUtils.isEmpty(pwd))
             et.setSelection(pwd.length());
     }
-
-
 }
