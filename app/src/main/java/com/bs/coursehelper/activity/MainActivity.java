@@ -5,19 +5,26 @@ import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bs.coursehelper.Constants;
 import com.bs.coursehelper.R;
 import com.bs.coursehelper.adapter.MainAdapter;
 import com.bs.coursehelper.base.BaseActivity;
 import com.bs.coursehelper.base.BaseFragment;
+import com.bs.coursehelper.bean.User;
+import com.bs.coursehelper.fragment.AdminCourseFragment;
+import com.bs.coursehelper.fragment.AdminStuFragment;
 import com.bs.coursehelper.fragment.HomeFragment;
 import com.bs.coursehelper.fragment.MineFragment;
 import com.bs.coursehelper.fragment.MyCourseFragment;
+import com.bs.coursehelper.utils.SPUtil;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +42,7 @@ public class MainActivity extends BaseActivity {
     TabLayout idTlTabsHome;
 
     private MainAdapter mMainAdapter;
+    private int userType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +55,22 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+        String userInfo = (String) SPUtil.getInstanse().getParam(Constants.USER_LOCAL_INFO, "");
+        //默认是学生
+        userType = 0 ;
+        if (!TextUtils.isEmpty(userInfo)){
+            User user = new Gson().fromJson(userInfo, User.class);
+            userType = user.getUserType();
+        }
         setTabs();
         List<BaseFragment> fragmentList = new ArrayList<>();
-        fragmentList.add(new HomeFragment());
-        fragmentList.add(new MyCourseFragment());
+        if (userType==0){
+            fragmentList.add(new HomeFragment());
+            fragmentList.add(new MyCourseFragment());
+        }else if (userType==1){
+            fragmentList.add(new AdminCourseFragment());
+            fragmentList.add(new AdminStuFragment());
+        }
         fragmentList.add(new MineFragment());
         mMainAdapter = new MainAdapter(getSupportFragmentManager(), fragmentList);
         idVpContentHome.setAdapter(mMainAdapter);
@@ -66,6 +86,11 @@ public class MainActivity extends BaseActivity {
         TypedArray typedArray = mContext.getResources().obtainTypedArray(R.array.int_main_tab);
         LayoutInflater inflater = LayoutInflater.from(mContext);
         String[] tabTitles = mContext.getResources().getStringArray(R.array.text_main_tab);
+
+        if (userType==1){
+            typedArray = mContext.getResources().obtainTypedArray(R.array.int_admin_main_tab);
+            tabTitles = mContext.getResources().getStringArray(R.array.text_admin_main_tab);
+        }
         for (int i = 0; i < tabTitles.length; i++) {
             TabLayout.Tab tab = idTlTabsHome.newTab();
             View view = inflater.inflate(R.layout.item_tab_main, null);

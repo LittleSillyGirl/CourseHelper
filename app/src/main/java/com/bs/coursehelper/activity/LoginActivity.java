@@ -64,7 +64,6 @@ public class LoginActivity extends BaseActivity {
     @BindView(R.id.id_cl_content_login)
     ConstraintLayout idClContentLogin;
 
-
     @Override
     protected void initView() {
 

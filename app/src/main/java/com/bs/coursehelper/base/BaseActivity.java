@@ -37,7 +37,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         mContext = this;
         mActivity = this;
-
         StatusBarUtil.setTransparent(mActivity);
         // 设置页面布局并且绑定数据
         if (getLayoutResId() != -1) {
@@ -45,7 +44,6 @@ public abstract class BaseActivity extends AppCompatActivity {
             //绑定初始化ButterKnife
             ButterKnife.bind(this);
         }
-
         initParam(savedInstanceState);
         //初始化view
         initView();

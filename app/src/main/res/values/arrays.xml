@@ -22,6 +22,19 @@
         <item>个人中心</item>
     </string-array>
 
+    <integer-array name="int_admin_main_tab">
+        <item>@drawable/selector_main_tab_admin_course</item>
+        <item>@drawable/selector_main_tab_admin_stu</item>
+        <item>@drawable/selector_main_tab_mine</item>
+    </integer-array>
+
+
+    <string-array name="text_admin_main_tab">
+        <item>课程列表</item>
+        <item>学生列表</item>
+        <item>个人中心</item>
+    </string-array>
+
     <integer-array name="int_home_patient_classfiy">
         <item>@mipmap/select_course</item>
         <item>@mipmap/query_credit</item>

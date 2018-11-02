@@ -11,6 +11,7 @@
         android:layout_width="@dimen/dp_20"
         android:layout_height="@dimen/dp_20"
         android:src="@mipmap/ic_tab_home_checked"
+        android:scaleType="fitXY"
         app:layout_constraintBottom_toTopOf="@id/id_tv_main_tab_item"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

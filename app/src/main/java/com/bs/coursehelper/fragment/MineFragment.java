@@ -1,13 +1,9 @@
 package com.bs.coursehelper.fragment;
 
 import android.content.res.TypedArray;
-import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,6 +13,7 @@ import com.bs.coursehelper.adapter.MineDescAdapter;
 import com.bs.coursehelper.base.BaseFragment;
 import com.bs.coursehelper.bean.HomeClassfiyBean;
 import com.bs.coursehelper.utils.SPUtil;
+import com.jaeger.library.StatusBarUtil;
 import com.vondear.rxtool.RxActivityTool;
 import com.vondear.rxtool.view.RxToast;
 
@@ -24,9 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
@@ -52,7 +47,6 @@ public class MineFragment extends BaseFragment {
     ConstraintLayout idClMine;
     @BindView(R.id.id_tv_login_out)
     TextView idTvLoginOut;
-    Unbinder unbinder;
 
 
     @Override
@@ -63,6 +57,7 @@ public class MineFragment extends BaseFragment {
     @Override
     protected void initView() {
         super.initView();
+        StatusBarUtil.setTransparentForImageViewInFragment(mActivity, idCirMine);
     }
 
     @Override
@@ -95,20 +90,6 @@ public class MineFragment extends BaseFragment {
             RxToast.normal(s.getClassfiyName());
         });
         idRvMine.setAdapter(mineDescAdapter);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
-        return rootView;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
     }
 
     @OnClick(R.id.id_tv_login_out)
