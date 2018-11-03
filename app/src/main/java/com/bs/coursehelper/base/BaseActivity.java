@@ -37,7 +37,9 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         mContext = this;
         mActivity = this;
-        StatusBarUtil.setTransparent(mActivity);
+        if (isTransparent()){
+            StatusBarUtil.setTransparent(mActivity);
+        }
         // 设置页面布局并且绑定数据
         if (getLayoutResId() != -1) {
             setContentView(getLayoutResId());
@@ -52,6 +54,15 @@ public abstract class BaseActivity extends AppCompatActivity {
 
 
         RxActivityTool.addActivity(mActivity);
+    }
+
+    /**
+     * 是否透明
+     *
+     * @return
+     */
+    protected boolean isTransparent() {
+        return true;
     }
 
     /**

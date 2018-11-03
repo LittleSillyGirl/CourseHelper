@@ -1,7 +1,9 @@
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
 
     <com.vondear.rxui.view.RxTitle
         android:id="@+id/id_rt_title"
@@ -13,8 +15,23 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/id_rv_course_list"
+        app:rightIcon="@mipmap/ic_course_add"
+        app:rightIconVisibility="true"
         app:leftIconVisibility="false"
         app:title="课程列表" />
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/id_rv_course_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/id_rt_title"
+        app:layout_constraintVertical_weight="1">
 
-</android.support.design.widget.CoordinatorLayout>
+
+    </android.support.v7.widget.RecyclerView>
+
+</android.support.constraint.ConstraintLayout>

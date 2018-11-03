@@ -25,6 +25,7 @@ import com.bs.coursehelper.fragment.MineFragment;
 import com.bs.coursehelper.fragment.MyCourseFragment;
 import com.bs.coursehelper.utils.SPUtil;
 import com.google.gson.Gson;
+import com.vondear.rxtool.RxBarTool;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +52,15 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+
     }
+
+    @Override
+    protected boolean isTransparent() {
+        RxBarTool.setTransparentStatusBar(mActivity);
+        return false;
+    }
+
 
     @Override
     protected void initData() {
