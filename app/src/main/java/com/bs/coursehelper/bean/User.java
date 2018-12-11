@@ -1,6 +1,7 @@
 package com.bs.coursehelper.bean;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 用户的信息
@@ -17,12 +18,28 @@ public class User implements Serializable {
     private String userName;
     private String userPwd;
     private String userNumber;
-    private int userSex;
+    private int userSex;  // 0 男  1  女
     /**
-     * 用户的类型  0  学生  、1  教师
+     * 用户的类型  0  学生  、1  管理员
      *
      */
     private int userType;
+
+    /**
+     * 用户的头像
+     *
+     */
+    private String userHeadUrl;
+
+    /**
+     * 用户已经选修的课程数量
+     *
+     */
+    private List<CourseUserBean> userCourses;
+    /**
+     * 已经选修的学分，  最大值为16
+     */
+    private float userCourseScore;
 
     public int getUserId() {
         return userId;
@@ -72,15 +89,42 @@ public class User implements Serializable {
         this.userType = userType;
     }
 
+    public List<CourseUserBean> getUserCourses() {
+        return userCourses;
+    }
+
+    public void setUserCourses(List<CourseUserBean> userCourses) {
+        this.userCourses = userCourses;
+    }
+
+    public float getUserCourseScore() {
+        return userCourseScore;
+    }
+
+    public void setUserCourseScore(float userCourseScore) {
+        this.userCourseScore = userCourseScore;
+    }
+
+    public String getUserHeadUrl() {
+        return userHeadUrl;
+    }
+
+    public void setUserHeadUrl(String userHeadUrl) {
+        this.userHeadUrl = userHeadUrl;
+    }
+
     @Override
     public String toString() {
         return "User{" +
-                "userId='" + userId + '\'' +
+                "userId=" + userId +
                 ", userName='" + userName + '\'' +
                 ", userPwd='" + userPwd + '\'' +
                 ", userNumber='" + userNumber + '\'' +
                 ", userSex=" + userSex +
                 ", userType=" + userType +
+                ", userHeadUrl='" + userHeadUrl + '\'' +
+                ", userCourses=" + userCourses +
+                ", userCourseScore=" + userCourseScore +
                 '}';
     }
 }

@@ -82,6 +82,7 @@ public class MainActivity extends BaseActivity {
         }
         fragmentList.add(new MineFragment());
         mMainAdapter = new MainAdapter(getSupportFragmentManager(), fragmentList);
+        idVpContentHome.setOffscreenPageLimit(2);
         idVpContentHome.setAdapter(mMainAdapter);
         idVpContentHome.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(idTlTabsHome));
         idTlTabsHome.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(idVpContentHome));

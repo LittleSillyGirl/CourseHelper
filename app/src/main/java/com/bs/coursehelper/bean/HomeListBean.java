@@ -12,6 +12,8 @@ public class HomeListBean {
     private String teacherName;
     private String courseName;
     private int studentNum;
+    private int studentApplications;
+
 
     public String getTeacherHeadUrl() {
         return teacherHeadUrl;
@@ -45,6 +47,14 @@ public class HomeListBean {
         this.studentNum = studentNum;
     }
 
+    public int getStudentApplications() {
+        return studentApplications;
+    }
+
+    public void setStudentApplications(int studentApplications) {
+        this.studentApplications = studentApplications;
+    }
+
     @Override
     public String toString() {
         return "HomeListBean{" +
@@ -52,6 +62,7 @@ public class HomeListBean {
                 ", teacherName='" + teacherName + '\'' +
                 ", courseName='" + courseName + '\'' +
                 ", studentNum='" + studentNum + '\'' +
+                ", studentApplications='" + studentApplications + '\'' +
                 '}';
     }
 }

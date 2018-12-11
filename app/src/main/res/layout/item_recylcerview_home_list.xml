@@ -38,6 +38,28 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toRightOf="@id/id_civ_teacher_head"/>
 
+    <ImageView
+        android:id="@+id/id_iv_is_all"
+        android:layout_width="@dimen/dp_35"
+        android:layout_height="@dimen/dp_35"
+        android:layout_marginTop="-5dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="@id/id_tv_course_name"
+        android:src="@mipmap/ic_man"
+        />
+
+    <ImageView
+        android:id="@+id/id_iv_sign_up"
+        android:layout_width="@dimen/dp_40"
+        android:layout_height="@dimen/dp_40"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="@dimen/dp_5"
+        app:layout_constraintTop_toTopOf="@id/id_tv_course_name"
+        app:layout_constraintBottom_toBottomOf="@id/id_tv_student_num"
+        android:src="@mipmap/ic_sign"
+        />
+
 
     <TextView
         android:id="@+id/id_tv_teacher_name"

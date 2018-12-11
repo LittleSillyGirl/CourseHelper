@@ -9,11 +9,14 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bs.coursehelper.R;
-import com.bs.coursehelper.bean.HomeListBean;
+import com.bs.coursehelper.bean.MySubject;
 import com.bs.coursehelper.listener.IRVOnItemListener;
+import com.bs.coursehelper.listener.IRVOnLongListener;
+import com.bs.coursehelper.listener.IRVViewOnClickListener;
 import com.vondear.rxtool.RxTextTool;
 
 import java.util.List;
@@ -29,15 +32,25 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.HomeListViewHolder> {
     private static final String TAG = "HomeClassfiyAdapter";
 
-    private List<HomeListBean> mDatas;
+    private List<MySubject> mDatas;
     private Context mContext;
-    private IRVOnItemListener<HomeListBean> mIRVOnItemListener;
+    private IRVOnItemListener<MySubject> mIRVOnItemListener;
+    private IRVOnLongListener<MySubject> mIRVOnLongListener;
+    private IRVViewOnClickListener<MySubject> mIRVViewOnClickListener;
 
-    public void setIRVOnItemListener(IRVOnItemListener<HomeListBean> iRVOnItemListener) {
+    public void setIRVOnItemListener(IRVOnItemListener<MySubject> iRVOnItemListener) {
         this.mIRVOnItemListener = iRVOnItemListener;
     }
 
-    public HomeListAdapter(List<HomeListBean> datas, Context context) {
+    public void setIRVOnLongListener(IRVOnLongListener<MySubject> iRVOnLongListener) {
+        this.mIRVOnLongListener = iRVOnLongListener;
+    }
+
+    public void setIRVViewOnClickListener(IRVViewOnClickListener<MySubject> iRVViewOnClickListener) {
+        this.mIRVViewOnClickListener = iRVViewOnClickListener;
+    }
+
+    public HomeListAdapter(List<MySubject> datas, Context context) {
         this.mDatas = datas;
         this.mContext = context;
     }
@@ -55,23 +68,47 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.HomeLi
 
     @Override
     public void onBindViewHolder(@NonNull HomeListViewHolder holder, int position) {
-        HomeListBean homeListBean = mDatas.get(position);
-        String uriStr = homeListBean.getTeacherHeadUrl();
+        MySubject mySubject = mDatas.get(position);
+        String uriStr = "";
         if (!TextUtils.isEmpty(uriStr)) {
             holder.idCivTeacherHead.setImageURI(Uri.parse(uriStr));
         }
-        holder.idTvCourseName.setText(homeListBean.getCourseName());
-        holder.idTvTeacherName.setText(homeListBean.getTeacherName());
+        holder.idTvCourseName.setText(mySubject.getName());
+        holder.idTvTeacherName.setText(mySubject.getTeacher());
+        int applications = mySubject.getCourseStuApplications();
+        int stuNum = mySubject.getCourseStuNum();
+        if (applications == stuNum){
+            holder.idIvSignUp.setVisibility(View.GONE);
+            holder.idIvIsAll.setVisibility(View.VISIBLE);
+        }else{
+            holder.idIvIsAll.setVisibility(View.GONE);
+            holder.idIvSignUp.setVisibility(View.VISIBLE);
+        }
         RxTextTool.getBuilder("报名人数：")
-                .append(String.valueOf(homeListBean.getStudentNum()))
+                .append(applications + " (" + stuNum + ")")
                 .setForegroundColor(mContext.getResources().getColor(R.color.tb_blue1))
                 .setProportion(1.8f)
                 .into(holder.idTvStudentNum);
         holder.idClHomeList.setOnClickListener(view -> {
             if (mIRVOnItemListener != null) {
-                mIRVOnItemListener.onItemClick(homeListBean, position);
+                mIRVOnItemListener.onItemClick(mySubject, position);
             }
         });
+
+        holder.idClHomeList.setOnLongClickListener(view -> {
+            if (mIRVOnLongListener != null) {
+                mIRVOnLongListener.onLongClick(mySubject, position);
+            }
+            return false;
+        });
+
+        holder.idIvSignUp.setOnClickListener(view -> {
+            if (mIRVViewOnClickListener != null) {
+                mIRVViewOnClickListener.onClick(holder.idIvSignUp, mySubject, position);
+            }
+        });
+
+
     }
 
     public class HomeListViewHolder extends RecyclerView.ViewHolder {
@@ -86,6 +123,10 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.HomeLi
         TextView idTvStudentNum;
         @BindView(R.id.id_cl_home_list)
         ConstraintLayout idClHomeList;
+        @BindView(R.id.id_iv_is_all)
+        ImageView idIvIsAll;
+        @BindView(R.id.id_iv_sign_up)
+        ImageView idIvSignUp;
 
         public HomeListViewHolder(View itemView) {
             super(itemView);

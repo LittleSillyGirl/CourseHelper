@@ -81,6 +81,7 @@ public class ForgetPwdActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+        idRtTitle.setLeftFinish(mActivity);
 
     }
 
@@ -140,7 +141,7 @@ public class ForgetPwdActivity extends BaseActivity {
                 Observable.just(0)
                         .map(integer -> {
                             long isSucess = -1;
-                            User userTmp = dbHelper.queryUser(usernumber);
+                            User userTmp = dbHelper.queryUserIsExist(usernumber, usernumber);
                             if (userTmp == null) {
                                 isSucess = -2;
                             }else{

@@ -6,6 +6,7 @@ import android.support.constraint.ConstraintLayout;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -164,14 +165,19 @@ public class RegisterActivity extends BaseActivity {
                 ProgressDialogHelper progressDialogHelper = new ProgressDialogHelper(mContext);
                 progressDialogHelper.show("注册", "正在注册中...");
                 RxKeyboardTool.hideSoftInput(mActivity);
-                Observable.just(0)
+                Observable.just(isExistName(userName, usernumber))
                         .map(integer -> {
                             long isSucess = -1;
-                            try {
-                                isSucess = dbHelper.insertUser(user[0]);
-                            } catch (SQLiteException sqLiteException) {
-                                isSucess = -1;
-                                sqLiteException.printStackTrace();
+                            Log.i(TAG, "onClick: integer==" + integer);
+                            if (integer==0){
+                                try {
+                                    isSucess = dbHelper.insertUser(user[0]);
+                                } catch (SQLiteException sqLiteException) {
+                                    isSucess = -1;
+                                    sqLiteException.printStackTrace();
+                                }
+                            }else if (integer==1){
+                                isSucess = -2;
                             }
                             return isSucess;
                         })
@@ -182,10 +188,38 @@ public class RegisterActivity extends BaseActivity {
                             if (o >= 0) {
                                 RxToast.normal("注册成功！");
                                 finish();
+                            }else{
+                                if (0==-2){
+                                    RxToast.normal("该用户已存在！！！");
+                                    return;
+                                }
+                                RxToast.normal("注册失败！");
                             }
                         });
                 break;
         }
+    }
+
+    /**
+     * 用户是否存在
+     *
+     * @param name
+     * @return
+     */
+    private int isExistName(String name, String number){
+        User user = DbHelper.getInstance().queryUserIsExist(name, number);
+        int result = 0;
+        try {
+            if (user == null) {
+                result = 0;
+            } else {
+                result = 1;
+            }
+        } catch (SQLiteException sqLiteException) {
+            result = -1;
+            sqLiteException.printStackTrace();
+        }
+        return result;
     }
 
     /**

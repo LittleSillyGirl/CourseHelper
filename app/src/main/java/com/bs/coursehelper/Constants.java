@@ -18,4 +18,10 @@ public class Constants {
      */
     public static final String USER_LOCAL_INFO = "userLocalInfo";
 
+    /**
+     * 课程的id
+     *
+     */
+    public static final String COURSE_ID = "courseId";
+
 }

@@ -12,8 +12,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.bs.coursehelper.R;
-import com.bs.coursehelper.bean.HomeListBean;
+import com.bs.coursehelper.bean.User;
 import com.bs.coursehelper.listener.IRVOnItemListener;
+import com.bs.coursehelper.listener.IRVOnLongListener;
 import com.vondear.rxtool.RxTextTool;
 
 import java.util.List;
@@ -26,26 +27,31 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * 首页的头部分类
  */
 
-public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.HomeListViewHolder> {
+public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.StudentListViewHolder> {
     private static final String TAG = "StudentListAdapter";
 
-    private List<HomeListBean> mDatas;
+    private List<User> mDatas;
     private Context mContext;
-    private IRVOnItemListener<HomeListBean> mIRVOnItemListener;
+    private IRVOnItemListener<User> mIRVOnItemListener;
+    private IRVOnLongListener<User> mIRVOnLongListener;
 
-    public void setIRVOnItemListener(IRVOnItemListener<HomeListBean> iRVOnItemListener) {
+    public void setIRVOnItemListener(IRVOnItemListener<User> iRVOnItemListener) {
         this.mIRVOnItemListener = iRVOnItemListener;
     }
 
-    public StudentListAdapter(List<HomeListBean> datas, Context context) {
+    public void setIRVOnLongListener(IRVOnLongListener<User> iRVOnLongListener) {
+        this.mIRVOnLongListener = iRVOnLongListener;
+    }
+
+    public StudentListAdapter(List<User> datas, Context context) {
         this.mDatas = datas;
         this.mContext = context;
     }
 
     @NonNull
     @Override
-    public HomeListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new HomeListViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_recylcerview_stud_list, parent, false));
+    public StudentListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new StudentListViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_recylcerview_stud_list, parent, false));
     }
 
     @Override
@@ -54,32 +60,39 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HomeListViewHolder holder, int position) {
-        HomeListBean homeListBean = mDatas.get(position);
-        String uriStr = homeListBean.getTeacherHeadUrl();
+    public void onBindViewHolder(@NonNull StudentListViewHolder holder, int position) {
+        User user = mDatas.get(position);
+        String uriStr = user.getUserHeadUrl();
         if (!TextUtils.isEmpty(uriStr)) {
             holder.idCivStuHead.setImageURI(Uri.parse(uriStr));
         }
-        holder.idTvStuName.setText(homeListBean.getTeacherName());
+        holder.idTvStuName.setText(user.getUserName());
         RxTextTool.getBuilder("已修课程门数：")
-                .append(String.valueOf(homeListBean.getStudentNum()))
+                .append(String.valueOf(user.getUserCourses().size()))
                 .setForegroundColor(mContext.getResources().getColor(R.color.tb_blue1))
                 .setProportion(1.8f)
                 .into(holder.idTvStuCourseNum);
 
         RxTextTool.getBuilder("已修学分：")
-                .append(String.valueOf(homeListBean.getStudentNum()))
+                .append(String.valueOf(user.getUserCourseScore()))
                 .setForegroundColor(mContext.getResources().getColor(R.color.tb_blue1))
                 .setProportion(1.8f)
                 .into(holder.idTvStuScore);
         holder.idClStuList.setOnClickListener(view -> {
             if (mIRVOnItemListener != null) {
-                mIRVOnItemListener.onItemClick(homeListBean, position);
+                mIRVOnItemListener.onItemClick(user, position);
             }
+        });
+
+        holder.idClStuList.setOnLongClickListener(view -> {
+            if (mIRVOnLongListener != null) {
+                mIRVOnLongListener.onLongClick(user, position);
+            }
+            return false;
         });
     }
 
-    public class HomeListViewHolder extends RecyclerView.ViewHolder {
+    public class StudentListViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.id_civ_stu_head)
         CircleImageView idCivStuHead;
@@ -92,7 +105,7 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
         @BindView(R.id.id_cl_stu_list)
         ConstraintLayout idClStuList;
 
-        public HomeListViewHolder(View itemView) {
+        public StudentListViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

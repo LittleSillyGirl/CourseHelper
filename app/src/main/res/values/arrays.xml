@@ -50,7 +50,7 @@
     <string-array name="text_mine_desc">
         <item>个人信息</item>
         <item>关于App</item>
-        <item>设置</item>
+        <item>修改密码</item>
     </string-array>
     <string-array name="int_mine_desc">
         <item>@mipmap/icon_personal</item>

@@ -143,7 +143,7 @@ public class LoginActivity extends BaseActivity {
                 RxKeyboardTool.hideSoftInput(mActivity);
                 Observable.just(0)
                         .map(integer -> {
-                            User user = dbHelper.queryUser(userName);
+                            User user = dbHelper.queryUserIsExist(userName, userName);
                             int result = 0;
                             try {
                                 if (user == null) {

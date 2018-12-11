@@ -1,25 +1,25 @@
 package com.bs.coursehelper.fragment;
 
 import android.content.res.TypedArray;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bs.coursehelper.Constants;
 import com.bs.coursehelper.R;
+import com.bs.coursehelper.activity.AboutAppActivity;
+import com.bs.coursehelper.activity.AdminInfoActivity;
+import com.bs.coursehelper.activity.ForgetPwdActivity;
 import com.bs.coursehelper.activity.LoginActivity;
 import com.bs.coursehelper.adapter.MineDescAdapter;
 import com.bs.coursehelper.base.BaseFragment;
 import com.bs.coursehelper.bean.HomeClassfiyBean;
+import com.bs.coursehelper.bean.User;
 import com.bs.coursehelper.utils.SPUtil;
+import com.google.gson.Gson;
 import com.vondear.rxtool.RxActivityTool;
-import com.vondear.rxtool.RxBarTool;
 import com.vondear.rxtool.view.RxToast;
 
 import java.util.ArrayList;
@@ -53,12 +53,6 @@ public class MineFragment extends BaseFragment {
     @BindView(R.id.id_tv_login_out)
     TextView idTvLoginOut;
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
-
     @Override
     protected int getLayoutResId() {
         return R.layout.fragment_mine;
@@ -67,9 +61,9 @@ public class MineFragment extends BaseFragment {
     @Override
     protected void initView() {
         super.initView();
-        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) idCirMine.getLayoutParams();
-        layoutParams.topMargin = RxBarTool.getStatusBarHeight(mContext);
-        idCirMine.setLayoutParams(layoutParams);
+//        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) idCirMine.getLayoutParams();
+//        layoutParams.topMargin = RxBarTool.getStatusBarHeight(mContext);
+//        idCirMine.setLayoutParams(layoutParams);
     }
 
     @Override
@@ -89,19 +83,23 @@ public class MineFragment extends BaseFragment {
         mineDescAdapter.setIRVOnItemListener((s, position) -> {
             switch (s.getClassfiyName()) {
                 case "个人信息":
+                    RxActivityTool.skipActivity(mContext, AdminInfoActivity.class);
                     break;
-                case "健康档案":
+                case "关于App":
+                    RxActivityTool.skipActivity(mContext, AboutAppActivity.class);
                     break;
-                case "我的处方":
-                    break;
-                case "我的预约":
-                    break;
-                case "设置":
+                case "修改密码":
+                    RxActivityTool.skipActivity(mContext, ForgetPwdActivity.class);
                     break;
             }
             RxToast.normal(s.getClassfiyName());
         });
         idRvMine.setAdapter(mineDescAdapter);
+
+        String userInfoStr = (String) SPUtil.getInstanse().getParam(Constants.USER_LOCAL_INFO, "");
+        User user = new Gson().fromJson(userInfoStr, User.class);
+        idTvUserName.setText(user.getUserName());
+        idTvUserPhone.setText(user.getUserNumber());
     }
 
     @OnClick(R.id.id_tv_login_out)
